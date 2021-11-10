@@ -28,7 +28,7 @@ if __name__ == '__main__':
     for page_number in range(1, int(args.num_pages)+1):
         #Build the URL
         url = 'https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313&_nkw=' 
-        url += args.search_term 
+        url += args.search_term.replace(' ','+')
         url += '&_sacat=0&_pgn='
         url += str(page_number)
         url += '&rt=nc'
