@@ -16,6 +16,7 @@ def parse_itemssold(text):
         return 0
 
 if __name__ == '__main__':
+    
     # Get command line arguments
     parser = argparse.ArgumentParser(description='Download information from ebay and convert to JSON.')
     parser.add_argument('search_term')
