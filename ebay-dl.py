@@ -39,7 +39,6 @@ if __name__ == '__main__':
         status = r.status_code
         print('status=', status)
         html = r.text
-        #print('html=', html[:50])
 
         # process the html
         
@@ -47,7 +46,6 @@ if __name__ == '__main__':
 
         tags_items = soup.select('.s-item')
         for tag_item in tags_items:
-            # print('tag_itme=',tag_item)
             
             # Extract the name
             tags_name = tag_item.select('.s-item__title')
@@ -85,6 +83,7 @@ if __name__ == '__main__':
             for tag in tags_name:
                 items_sold = parse_itemssold(tag.text)
 
+            # Creates the dictionary for each item
             item = {
                 'name': name,
                 'price': price,
