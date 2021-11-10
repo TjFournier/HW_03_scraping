@@ -15,6 +15,16 @@ def parse_itemssold(text):
     else:
         return 0
 
+def parse_itemsshipping(text):
+    numbers = ''
+    for char in text:
+        if char in '1234567890.':
+            numbers += char
+    if 'Free' in text:
+        return '0'
+    else:
+        return numbers
+
 if __name__ == '__main__':
     
     # Get command line arguments
@@ -24,8 +34,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
     print('args.search_terms=', args.search_term)
 
+    # All items found
     items = []
-    for page_number in range(1, int(args.num_pages)+1):
+
+    for page_number in range(1, int(args.num_pages) + 1):
         #Build the URL
         url = 'https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313&_nkw=' 
         url += args.search_term.replace(' ','+')
@@ -45,6 +57,7 @@ if __name__ == '__main__':
         soup = BeautifulSoup(html, 'html.parser')
 
         tags_items = soup.select('.s-item')
+        
         for tag_item in tags_items:
             
             # Extract the name
@@ -69,7 +82,7 @@ if __name__ == '__main__':
             tags_name = tag_item.select('.s-item__shipping')
             shipping_price = 0
             for tag in tags_name:
-                shipping_price = tag.text
+                shipping_price = parse_itemsshipping(tag.text)
 
             # Extract the free returns
             freereturns = False
@@ -98,6 +111,6 @@ if __name__ == '__main__':
         print('len(items)', len(items))
 
     # Write the json into a file
-    filename = args.search_term+'.json'
+    filename = args.search_term + '.json'
     with open(filename, 'w', encoding='ascii') as f:
         f.write(json.dumps(items))
